@@ -1,0 +1,1 @@
+insert into "user" (id, password, email, name, nickname) values ('admin', 'admin', 'hiyoojeong@gmail.com', '조유정', '하이유정');
