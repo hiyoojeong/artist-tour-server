@@ -1,1 +1,1 @@
-insert into "user" (id, password, email, name, nickname) values ('admin', 'admin', 'hiyoojeong@gmail.com', '조유정', '하이유정');
+insert into "user" (id, password, email, name, nickname) values ('admin', '$2a$10$e4AJU2Rt9X71sOoM2HIfdevDDhhyqpxBQBk38rVm57nklqqif1fkW', 'hiyoojeong@gmail.com', '조유정', '조머정');

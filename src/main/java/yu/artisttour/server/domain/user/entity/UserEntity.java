@@ -1,28 +1,25 @@
-package yu.artisttour.server.user.entity;
+package yu.artisttour.server.domain.user.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "`user`")
 @Getter
 @Setter
-@Table(name = "`user`")
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId")
+    @Column(name = "usee_id")
     private Long userId;
 
     @Column(name = "id", nullable = false, length = 50)
     private String id;
 
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
 
     @Column(name = "email", nullable = false, length = 50)
@@ -33,4 +30,5 @@ public class UserEntity {
 
     @Column(name = "nickname", nullable = false, length = 50)
     private String nickname;
+
 }
