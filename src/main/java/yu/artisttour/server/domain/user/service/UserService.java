@@ -2,6 +2,7 @@ package yu.artisttour.server.domain.user.service;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import yu.artisttour.server.domain.user.dto.SignupDto;
+import yu.artisttour.server.domain.user.dto.TokenDto;
 import yu.artisttour.server.domain.user.entity.UserEntity;
 import yu.artisttour.server.domain.user.repository.UserRepository;
 import yu.artisttour.server.exception.user.ErrorCode;
@@ -37,7 +39,7 @@ public class UserService {
     }
 
     // 로그인
-    public String login(LoginDto loginDto) {
+    public ResponseEntity login(LoginDto loginDto) {
         // 로그인 실패: 입력한 아이디가 존재하지 않는 경우
         UserEntity userEntity = userRepository.findById(loginDto.getId())
                 .orElseThrow(() -> new UserException(ErrorCode.USERNAME_NOT_FOUND, "회원이 아닙니다."));
@@ -54,7 +56,13 @@ public class UserService {
                         loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtGenerator.generateToken(authentication);
+        String token = jwtGenerator.generateToken(authentication);
+
+        // ResponseEntity 생성 및 반환
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + token);
+        return new ResponseEntity<>(new TokenDto(token), httpHeaders, HttpStatus.OK);
+
 
     }
 
