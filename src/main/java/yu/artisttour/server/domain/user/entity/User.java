@@ -2,18 +2,22 @@ package yu.artisttour.server.domain.user.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import yu.artisttour.server.domain.report.entity.Report;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "`user`")
 @Getter
 @Setter
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usee_id")
+    @Column(name = "user_id")
     private Long userId;
 
     @Column(name = "id", nullable = false, length = 50)
@@ -30,5 +34,9 @@ public class User {
 
     @Column(name = "nickname", nullable = false, length = 50)
     private String nickname;
+
+    @Column(name = "activated")
+    @ColumnDefault("true")
+    private Boolean activated;
 
 }
