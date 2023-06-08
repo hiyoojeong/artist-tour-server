@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 public class Timestamp {
 
     @CreatedDate
-    @Column(name = "registration_date")
-    private LocalDateTime registrationDate;
+    @Column(name = "createdAt")
+    private LocalDateTime createdAt;
 
     @CreatedDate
-    @Column(name = "agree_date")
-    private LocalDateTime agreeDate;
+    @Column(name = "modifiedAt")
+    private LocalDateTime modifiedAt;
 
 }
