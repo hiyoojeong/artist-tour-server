@@ -11,6 +11,7 @@ import yu.artisttour.server.domain.user.entity.UserEntity;
 import yu.artisttour.server.domain.user.security.JwtAuthenticationFilter;
 import yu.artisttour.server.domain.user.security.JwtGenerator;
 import yu.artisttour.server.domain.user.service.UserService;
+import yu.artisttour.server.util.TokenService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,9 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    private final JwtGenerator jwtGenerator;
+    private final TokenService tokenService;
 
     @PostMapping("/login")
     private ResponseEntity login(@RequestBody LoginDto loginDto) {
@@ -47,9 +46,7 @@ public class UserController {
 
     @GetMapping("/withdraw")
     private ResponseEntity withdraw(HttpServletRequest request) {
-        String token = jwtAuthenticationFilter.getJwtFromRequest(request);
-        String id = jwtGenerator.getIdFromJWT(token);
-
+        String id = tokenService.getIdByRequest(request);
         return userService.withdraw(id);
     }
 
