@@ -38,6 +38,24 @@ public class UserService {
         return modelMapper.map(signupDto, UserEntity.class);
     }
 
+    // 아아디 중복 확인
+    public ResponseEntity isUplicatedId(String id) {
+        userRepository.findById(id)
+                .ifPresent(m ->{
+                    throw new UserException(ErrorCode.DUPLICATED_ID, "이미 존재하는 아이디입니다.");
+                });
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // 이메일 중복 확인
+    public ResponseEntity isUplicatedEmail(String email) {
+        userRepository.findByEmail(email)
+                .ifPresent(m ->{
+                    throw new UserException(ErrorCode.DUPLICATED_EMAIL, "이미 존재하는 이메일입니다.");
+                });
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     // 로그인
     public ResponseEntity login(LoginDto loginDto) {
         // 로그인 실패: 입력한 아이디가 존재하지 않는 경우
@@ -80,23 +98,16 @@ public class UserService {
 
     }
 
-    // 아아디 중복 확인
-    public ResponseEntity isUplicatedId(String id) {
-        userRepository.findById(id)
-                .ifPresent(m ->{
-                    throw new UserException(ErrorCode.DUPLICATED_ID, "이미 존재하는 아이디입니다.");
-                });
+    // 회원탈퇴
+    public ResponseEntity withdraw(String id)
+    {
+        userRepository.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    // 이메일 중복 확인
-    public ResponseEntity isUplicatedEmail(String email) {
-        userRepository.findByEmail(email)
-                .ifPresent(m ->{
-                    throw new UserException(ErrorCode.DUPLICATED_EMAIL, "이미 존재하는 이메일입니다.");
-                });
-        return new ResponseEntity(HttpStatus.OK);
+    // 회원조회
+    public ResponseEntity userList() {
+        return ResponseEntity.ok(userRepository.findAll());
     }
-
 
 }

@@ -19,15 +19,13 @@ public class JwtGenerator {
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
 
-        //토큰 생성하여 반환
+        // 토큰 생성하여 반환
         return Jwts.builder()
                 .setSubject(id)
                 .setIssuedAt(currentDate)
                 .setExpiration(expireDate)
                 .signWith(SecurityConstants.JWT_KEY,SignatureAlgorithm.HS512)
                 .compact();
-
-
     }
 
     public String getIdFromJWT(String token) {

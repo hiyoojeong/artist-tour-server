@@ -23,9 +23,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    private String getJwtFromRequest(HttpServletRequest request)
+    public String getJwtFromRequest(HttpServletRequest request)
     {
-        //Authorization 헤더의 toekn을 가져온다.
+        //Authorization 헤더의 token을 가져온다.
         String bearerToken = request.getHeader("Authorization");
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         {
             String id = tokenGenerator.getIdFromJWT(token);
 
-            UserDetails userDetails= customUserDetailsService.loadUserByUsername(id);
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(id);
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
                     userDetails.getAuthorities());
