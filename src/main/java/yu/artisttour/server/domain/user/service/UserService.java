@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import yu.artisttour.server.domain.user.dto.SignupDto;
 import yu.artisttour.server.domain.user.dto.TokenDto;
-import yu.artisttour.server.domain.user.entity.UserEntity;
+import yu.artisttour.server.domain.user.entity.User;
 import yu.artisttour.server.domain.user.repository.UserRepository;
 import yu.artisttour.server.exception.user.ErrorCode;
 import yu.artisttour.server.exception.user.UserException;
@@ -34,8 +34,8 @@ public class UserService {
 
     private final ModelMapper modelMapper;
 
-    private UserEntity convertToEntity(SignupDto signupDto) {
-        return modelMapper.map(signupDto, UserEntity.class);
+    private User convertToEntity(SignupDto signupDto) {
+        return modelMapper.map(signupDto, User.class);
     }
 
     // 아아디 중복 확인
@@ -59,11 +59,11 @@ public class UserService {
     // 로그인
     public ResponseEntity login(LoginDto loginDto) {
         // 로그인 실패: 입력한 아이디가 존재하지 않는 경우
-        UserEntity userEntity = userRepository.findById(loginDto.getId())
+        User user = userRepository.findById(loginDto.getId())
                 .orElseThrow(() -> new UserException(ErrorCode.USERNAME_NOT_FOUND, "회원이 아닙니다."));
 
         // 로그인 실패: 비밀번호가 일치하지 않는 경우
-        if(!passwordEncoder.matches(loginDto.getPassword(), userEntity.getPassword())) {
+        if(!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
             throw new UserException(ErrorCode.INVALID_PASSWORD, "비밀번호가 일치하지 않습니다.");
         }
 
@@ -92,7 +92,7 @@ public class UserService {
 
         System.out.println(signupDto.getPassword());
 
-        UserEntity user = convertToEntity(signupDto);
+        User user = convertToEntity(signupDto);
         userRepository.save(user);
         return new ResponseEntity(HttpStatus.OK);
 

@@ -2,22 +2,22 @@ package yu.artisttour.server.domain.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
-import yu.artisttour.server.domain.user.entity.UserEntity;
+import yu.artisttour.server.domain.user.entity.User;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<UserEntity> findById(String id);
+    Optional<User> findById(String id);
 
-    Optional<UserEntity> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    UserEntity save(UserEntity userEntity);
+    User save(User user);
 
     @Transactional
     String deleteById(String id);
 
-    List<UserEntity> findAll();
+    List<User> findAll();
 
 }

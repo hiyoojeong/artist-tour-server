@@ -1,15 +1,12 @@
 package yu.artisttour.server.domain.user.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import yu.artisttour.server.domain.user.dto.DuplicatedCheckDto;
 import yu.artisttour.server.domain.user.dto.LoginDto;
 import yu.artisttour.server.domain.user.dto.SignupDto;
-import yu.artisttour.server.domain.user.entity.UserEntity;
-import yu.artisttour.server.domain.user.security.JwtAuthenticationFilter;
-import yu.artisttour.server.domain.user.security.JwtGenerator;
+import yu.artisttour.server.domain.user.entity.User;
 import yu.artisttour.server.domain.user.service.UserService;
 import yu.artisttour.server.util.TokenService;
 
@@ -51,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/user/list")
-    private ResponseEntity<List<UserEntity>> userList() {
+    private ResponseEntity<List<User>> userList() {
         return userService.userList();
     }
 

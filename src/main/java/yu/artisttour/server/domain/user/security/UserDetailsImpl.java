@@ -2,7 +2,7 @@ package yu.artisttour.server.domain.user.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import yu.artisttour.server.domain.user.entity.UserEntity;
+import yu.artisttour.server.domain.user.entity.User;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -10,9 +10,9 @@ import java.util.Collections;
 public class UserDetailsImpl implements UserDetails {
 
 
-    private final UserEntity userEntity;
+    private final User user;
 
-    public UserDetailsImpl(UserEntity user){this.userEntity = user;}
+    public UserDetailsImpl(User user){this.user = user;}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -22,12 +22,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userEntity.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return userEntity.getId();
+        return user.getId();
     }
 
     @Override
