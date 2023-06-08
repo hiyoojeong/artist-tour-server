@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByEmail(String email);
 
+    UserEntity save(UserEntity userEntity);
+
     @Transactional
     String deleteById(String id);
 
