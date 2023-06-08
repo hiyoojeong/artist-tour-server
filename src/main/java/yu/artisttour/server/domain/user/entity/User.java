@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import yu.artisttour.server.domain.report.entity.Report;
+import yu.artisttour.server.util.Timestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.List;
 @Table(name = "`user`")
 @Getter
 @Setter
-public class User implements Serializable {
+public class User extends Timestamp implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

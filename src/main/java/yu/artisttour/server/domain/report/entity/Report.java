@@ -3,6 +3,7 @@ package yu.artisttour.server.domain.report.entity;
 import lombok.Getter;
 import lombok.Setter;
 import yu.artisttour.server.domain.user.entity.User;
+import yu.artisttour.server.util.Timestamp;
 
 import javax.persistence.*;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "report")
 @Getter
 @Setter
-public class Report {
+public class Report extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
