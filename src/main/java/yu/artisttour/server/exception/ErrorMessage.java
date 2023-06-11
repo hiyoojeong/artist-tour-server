@@ -14,6 +14,6 @@ public class ErrorMessage {
 
     private String error;
 
-    private String error_message;
+    private String error_msg;
 
 }

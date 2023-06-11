@@ -19,10 +19,12 @@ insert into artist (name, maker_id) values ('아이유', 1);
 insert into artist (name, maker_id) values ('에스파', 1);
 
 -- place
-insert into place (artist_id, maker_id, name, latitude, longitude) values (1, 1, '서울시청', 37.532600, 127.024612);
-insert into place (artist_id, maker_id, name, latitude, longitude) values (2, 1, '서울시청근처', 37.532700, 127.024712);
-insert into place (artist_id, maker_id, name, latitude, longitude) values (3, 1, '서울시청근근처', 37.532800, 127.024812);
-insert into place (artist_id, maker_id, name, latitude, longitude) values (4, 1, '서울시청근근근처', 37.532900, 127.024912);
+insert into place (artist_id, maker_id, name, address, latitude, longitude, date, content) values (1, 1, '부산 수영구 광안해변로 219', '2022년 10월 15일 21:00', 37.532600, 127.024612, '2023-10-15 21:00:00', 'BTS의 2030 부산세계박람회 유치 기원 콘서트를 축하하는 [광안리 M 드론라이트쇼]가 개최된다.
+매주 토요일마다 오후 7시, 9시에 진행되는 드론 행사이며 주제는 매번 바뀐다고 한다.
+BTS의 부산 콘서트를 축하하기 위해 15일 9시 드론쇼 주제가 BTS로 선정되었다.');
+insert into place (artist_id, maker_id, name, address, latitude, longitude, date, content) values (1, 1, '서울시청 옆', '서울시 어쩌구 어쩐동 2', 37.532700, 127.024712, '2023-10-15 21:00:00', '서울에서 BTS의 첫 번째 콘서트가 개최된다.');
+insert into place (artist_id, maker_id, name, address, latitude, longitude, date, content) values (1, 1, '서울시청 뒤', '서울시 어쩌구 어쩐동 3', 37.532800, 127.024812, '2023-10-16 21:00:00', '서울에서 BTS의 두 번째 콘서트가 개최된다.');
+insert into place (artist_id, maker_id, name, address, latitude, longitude, date, content) values (2, 1, '서울시청 앞', '서울시 어쩌구 어쩐동 4', 37.532900, 127.024912, '2023-10-17 21:00:00', '드디어 돌아온 블랙핑크 한국 콘서트!!');
 
 -- subscribe
 insert into subscribe (artist_id, user_id) values (1, 1);

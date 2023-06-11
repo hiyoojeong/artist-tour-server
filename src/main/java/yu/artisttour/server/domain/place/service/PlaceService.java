@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import yu.artisttour.server.domain.artist.entity.Artist;
 import yu.artisttour.server.domain.artist.repository.ArtistRepository;
+import yu.artisttour.server.domain.place.dto.PlaceRequestDto;
+import yu.artisttour.server.domain.place.dto.PlaceDto;
 import yu.artisttour.server.domain.place.entity.Place;
 import yu.artisttour.server.domain.place.repository.PlaceRepository;
 import yu.artisttour.server.domain.subscribe.entity.Subscribe;
@@ -12,6 +14,8 @@ import yu.artisttour.server.domain.user.entity.User;
 import yu.artisttour.server.domain.user.repository.UserRepository;
 import yu.artisttour.server.exception.artist.ArtistErrorCode;
 import yu.artisttour.server.exception.artist.ArtistException;
+import yu.artisttour.server.exception.place.PlaceErrorCode;
+import yu.artisttour.server.exception.place.PlaceException;
 import yu.artisttour.server.exception.user.UserErrorCode;
 import yu.artisttour.server.exception.user.UserException;
 
@@ -48,6 +52,22 @@ public class PlaceService {
 
         return ResponseEntity.ok(places);
 
+    }
+
+    public ResponseEntity getPlace(PlaceRequestDto placeRequestDto) {
+        Place place = placeRepository.findByPlaceId(placeRequestDto.getPlaceId()).orElseThrow(() -> new PlaceException(PlaceErrorCode.PLACEID_NOT_FOUND, "존재하지 않는 플레이스입니다."));
+
+        Artist artist = place.getArtist();
+        if (artist == null) {throw new ArtistException(ArtistErrorCode.ARTISTID_NOT_FOUND, "존재하지 않는 아티스트입니다.");}
+
+        PlaceDto placeDto = PlaceDto.builder()
+                .artistName(artist.getName())
+                .placeName(place.getName())
+                .address(place.getAddress())
+                .date(place.getDate())
+                .content(place.getContent())
+                .build();
+        return ResponseEntity.ok(placeDto);
     }
 
 }

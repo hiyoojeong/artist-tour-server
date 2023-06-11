@@ -8,6 +8,7 @@ import yu.artisttour.server.domain.user.entity.User;
 import yu.artisttour.server.util.Timestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -32,6 +33,9 @@ public class Place {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
+
+    @Column(name = "address", nullable = false, length = 50)
+    private String address;
 
     @Column(name = "latitude", nullable = false)
     private Double latitude;
