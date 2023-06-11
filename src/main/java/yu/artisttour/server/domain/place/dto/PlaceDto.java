@@ -17,7 +17,7 @@ public class PlaceDto {
 
     private String address;
 
-    private Date date;
+    private String date;
 
     private String content;
 

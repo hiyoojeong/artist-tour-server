@@ -64,7 +64,7 @@ public class PlaceService {
                 .artistName(artist.getName())
                 .placeName(place.getName())
                 .address(place.getAddress())
-                .date(place.getDate())
+                .date(place.getDate().toString())
                 .content(place.getContent())
                 .build();
         return ResponseEntity.ok(placeDto);
