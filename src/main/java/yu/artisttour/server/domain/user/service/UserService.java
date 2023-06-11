@@ -15,12 +15,10 @@ import yu.artisttour.server.domain.user.dto.SignupDto;
 import yu.artisttour.server.domain.user.dto.TokenDto;
 import yu.artisttour.server.domain.user.entity.User;
 import yu.artisttour.server.domain.user.repository.UserRepository;
-import yu.artisttour.server.exception.user.ErrorCode;
+import yu.artisttour.server.exception.user.UserErrorCode;
 import yu.artisttour.server.exception.user.UserException;
 import yu.artisttour.server.domain.user.dto.LoginDto;
 import yu.artisttour.server.domain.user.security.JwtGenerator;
-
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -43,8 +41,8 @@ public class UserService {
     // 아아디 중복 확인
     public ResponseEntity isUplicatedId(String username) {
         userRepository.findByUsername(username)
-                .ifPresent(m ->{
-                    throw new UserException(ErrorCode.DUPLICATED_ID, "이미 존재하는 아이디입니다.");
+                .ifPresent(m -> {
+                    throw new UserException(UserErrorCode.DUPLICATED_ID, "이미 존재하는 아이디입니다.");
                 });
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -52,8 +50,8 @@ public class UserService {
     // 이메일 중복 확인
     public ResponseEntity isUplicatedEmail(String email) {
         userRepository.findByEmail(email)
-                .ifPresent(m ->{
-                    throw new UserException(ErrorCode.DUPLICATED_EMAIL, "이미 존재하는 이메일입니다.");
+                .ifPresent(m -> {
+                    throw new UserException(UserErrorCode.DUPLICATED_EMAIL, "이미 존재하는 이메일입니다.");
                 });
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -62,11 +60,11 @@ public class UserService {
     public ResponseEntity login(LoginDto loginDto) {
         // 로그인 실패: 입력한 아이디가 존재하지 않는 경우
         User user = userRepository.findByUsername(loginDto.getUsername())
-                .orElseThrow(() -> new UserException(ErrorCode.USERNAME_NOT_FOUND, "회원이 아닙니다."));
+                .orElseThrow(() -> new UserException(UserErrorCode.USERNAME_NOT_FOUND, "회원이 아닙니다."));
 
         // 로그인 실패: 비밀번호가 일치하지 않는 경우
-        if(!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
-            throw new UserException(ErrorCode.INVALID_PASSWORD, "비밀번호가 일치하지 않습니다.");
+        if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            throw new UserException(UserErrorCode.INVALID_PASSWORD, "비밀번호가 일치하지 않습니다.");
         }
 
         // 로그인 성공: 토큰 발행
@@ -87,8 +85,7 @@ public class UserService {
     }
 
     // 회원가입
-    public ResponseEntity signup(SignupDto signupDto)
-    {
+    public ResponseEntity signup(SignupDto signupDto) {
         // 비밀번호 암호화
         signupDto.setPassword(passwordEncoder.encode(signupDto.getPassword()));
 
@@ -101,8 +98,7 @@ public class UserService {
     }
 
     // 회원탈퇴
-    public ResponseEntity withdraw(Long userId)
-    {
+    public ResponseEntity withdraw(Long userId) {
         userRepository.deleteByUserId(userId);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -111,12 +107,4 @@ public class UserService {
     public ResponseEntity userList() {
         return ResponseEntity.ok(userRepository.findAll());
     }
-
-    // userId 가져오기
-    public Long getUserIdByUsername(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserException(ErrorCode.USERNAME_NOT_FOUND, "사용자를 찾을 수 없습니다."));
-        return user.getUserId();
-    }
-
 }

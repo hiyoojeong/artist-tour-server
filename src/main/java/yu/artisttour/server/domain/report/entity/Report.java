@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "report")
 @Getter
 @Setter
-public class Report extends Timestamp {
+public class Report {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

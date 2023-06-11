@@ -1,18 +1,21 @@
 package yu.artisttour.server.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import yu.artisttour.server.domain.subscribe.entity.Subscribe;
 import yu.artisttour.server.util.Timestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "`user`")
 @Getter
 @Setter
-public class User extends Timestamp implements Serializable {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +40,9 @@ public class User extends Timestamp implements Serializable {
     @Column(name = "activated")
     @ColumnDefault("true")
     private Boolean activated;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Subscribe> subscribes;
 
 }
