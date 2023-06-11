@@ -19,7 +19,7 @@ public class Report extends Timestamp {
     private Long reportId;
 
     @ManyToOne
-    @JoinColumn(name = "reported", referencedColumnName = "id")
+    @JoinColumn(name = "reported", referencedColumnName = "user_id")
     private User reported;
 
     @Column(name = "reporter", nullable = false, length = 50)

@@ -2,10 +2,15 @@ package yu.artisttour.server.util;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import yu.artisttour.server.domain.user.entity.User;
+import yu.artisttour.server.domain.user.repository.UserRepository;
 import yu.artisttour.server.domain.user.security.JwtAuthenticationFilter;
 import yu.artisttour.server.domain.user.security.JwtGenerator;
+import yu.artisttour.server.exception.user.ErrorCode;
+import yu.artisttour.server.exception.user.UserException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -15,11 +20,17 @@ public class TokenService {
 
     private final JwtGenerator jwtGenerator;
 
-    public String getIdByRequest(HttpServletRequest request) {
-        String token = jwtAuthenticationFilter.getJwtFromRequest(request);
-        String id = jwtGenerator.getIdFromJWT(token);
+    private final UserRepository userRepository;
 
-        return id;
+    public Long getUserIdByRequest(HttpServletRequest request) {
+        // 토큰 추출
+        String token = jwtAuthenticationFilter.getJwtFromRequest(request);
+        // 아이디 추출
+        String username = jwtGenerator.getIdFromJWT(token);
+        // userId 추출
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserException(ErrorCode.USERNAME_NOT_FOUND, "사용자를 찾을 수 없습니다."));
+        return user.getUserId();
     }
 
 

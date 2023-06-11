@@ -23,10 +23,13 @@ public class UserController {
 
     @PostMapping("/login")
     private ResponseEntity login(@RequestBody LoginDto loginDto) {
+
+        System.out.println(loginDto.getUsername());
+        System.out.println(loginDto.getPassword());
         return userService.login(loginDto);
     }
 
-    @PostMapping("/signup/check-id")
+    @PostMapping("/signup/check-username")
     private ResponseEntity checkId(@RequestBody DuplicatedCheckDto duplicatedCheckDto) {
         return userService.isUplicatedId(duplicatedCheckDto.getDuplicatedCheck());
     }
@@ -43,8 +46,8 @@ public class UserController {
 
     @GetMapping("/withdraw")
     private ResponseEntity withdraw(HttpServletRequest request) {
-        String id = tokenService.getIdByRequest(request);
-        return userService.withdraw(id);
+        Long userId = tokenService.getUserIdByRequest(request);
+        return userService.withdraw(userId);
     }
 
     @GetMapping("/user/list")

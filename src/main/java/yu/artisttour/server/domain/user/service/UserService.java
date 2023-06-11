@@ -20,6 +20,8 @@ import yu.artisttour.server.exception.user.UserException;
 import yu.artisttour.server.domain.user.dto.LoginDto;
 import yu.artisttour.server.domain.user.security.JwtGenerator;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -39,8 +41,8 @@ public class UserService {
     }
 
     // 아아디 중복 확인
-    public ResponseEntity isUplicatedId(String id) {
-        userRepository.findById(id)
+    public ResponseEntity isUplicatedId(String username) {
+        userRepository.findByUsername(username)
                 .ifPresent(m ->{
                     throw new UserException(ErrorCode.DUPLICATED_ID, "이미 존재하는 아이디입니다.");
                 });
@@ -59,7 +61,7 @@ public class UserService {
     // 로그인
     public ResponseEntity login(LoginDto loginDto) {
         // 로그인 실패: 입력한 아이디가 존재하지 않는 경우
-        User user = userRepository.findById(loginDto.getId())
+        User user = userRepository.findByUsername(loginDto.getUsername())
                 .orElseThrow(() -> new UserException(ErrorCode.USERNAME_NOT_FOUND, "회원이 아닙니다."));
 
         // 로그인 실패: 비밀번호가 일치하지 않는 경우
@@ -70,7 +72,7 @@ public class UserService {
         // 로그인 성공: 토큰 발행
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginDto.getId(),
+                        loginDto.getUsername(),
                         loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -99,15 +101,22 @@ public class UserService {
     }
 
     // 회원탈퇴
-    public ResponseEntity withdraw(String id)
+    public ResponseEntity withdraw(Long userId)
     {
-        userRepository.deleteById(id);
+        userRepository.deleteByUserId(userId);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     // 회원조회
     public ResponseEntity userList() {
         return ResponseEntity.ok(userRepository.findAll());
+    }
+
+    // userId 가져오기
+    public Long getUserIdByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserException(ErrorCode.USERNAME_NOT_FOUND, "사용자를 찾을 수 없습니다."));
+        return user.getUserId();
     }
 
 }
