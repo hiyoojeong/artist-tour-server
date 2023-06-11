@@ -6,10 +6,11 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public enum ErrorCode {
+public enum UserErrorCode {
     DUPLICATED_ID(HttpStatus.CONFLICT, ""),
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, ""),
     USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND,""),
+    USERID_NOT_FOUND(HttpStatus.NOT_FOUND,""),
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,"");
 
     private HttpStatus httpStatus;

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
-import yu.artisttour.server.exception.user.ErrorCode;
 
 @Getter
 @Setter
